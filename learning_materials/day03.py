@@ -12,9 +12,9 @@ for patient in patient_queue:
 
 """ this is a challenge task"""
 
-for patient in patient_queue: 
-    if patient['status'] == "Pending":
-        print (f"ATTENTION: Doctor review needed for {patient['name']} ")
+# for patient in patient_queue: 
+#     if patient['status'] == "Pending":
+#         print (f"ATTENTION: Doctor review needed for {patient['name']} ")
 
-    else: 
-        print("skip")
+#     else: 
+#         print("skip")
