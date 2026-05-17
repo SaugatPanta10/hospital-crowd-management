@@ -5,6 +5,7 @@ class PatientReport(models.Model):
     patient_name = models.CharField(max_length = 100)
     patient_phone = models.CharField(max_length=15)
     test_name = models.CharField(max_length=100)
+    doctor_name = models.CharField(max_length = 100, default = "Unassigned")
 
     verdict = models.TextField(default= "Pending")
 
