@@ -15,4 +15,3 @@ class PatientReport(models.Model):
 
     def __str__(self):
         return f"Report {self.patient_id} - {self.patient_name}"
-

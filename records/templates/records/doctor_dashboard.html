@@ -3,11 +3,25 @@
     <head>
         <meta charset = "UTF-8">
         <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
-        <title> UpacharVerdict - Home</title>
+        <title> Doctor Dashboard </title>
     </head>
     <body>
     <h1>Doctor Dashboard</h1>
     <hr>
-    <p> Please check your pending patient reports and review them carefully.</p>
+
+    <h2>Patient Report Queue:</h2>
+
+    <ul>
+        {% for report in reports %}
+        <li>
+            <strong> Patient ID: </strong> {{ report.patient_id }} |
+            <strong> Name: </strong> {{report.patient_name }} |
+            <strong> Status: </strong> {{report.verdict }}
+        </li>
+        {% empty %}
+        <p> No pending reports in the system.</p>
+        {% endfor %}
+        
+    </ul>
     </body>
 </html>
