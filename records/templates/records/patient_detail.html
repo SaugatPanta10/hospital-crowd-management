@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang = "eng">
+    <head>
+        <meta charset = "UTF-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+        <title> Patient Report - {{report.patient_name}}</title>
+    </head>
+    <body>
+    <h1>Medical Report Profile</h1>
+    <hr>
+    <p><strong> Patient ID: </strong> {{report.patient_id}}</p>
+    <p><strong> Full Name: </strong> {{report.patient_name}}</p>
+    <p><strong> Test Conducted: </strong> {{report.test_name}}</p>
+    <p><strong> Doctor Name: </strong> {{report.doctor_name}}</p>
+
+    <h3>Doctor's Final Verdict:'</h3>
+    <div style = "background-color: #f4f4f4; padding: 15px; border-left: 5px solid #007bff;">
+        <p>{{ report.verdict }}</p>
+    </div>
+    
+    <br>
+    <p> Status: {% if report.is_reviewd %} Reviewed & Signed {% else %}Pending Review{% endif %}</p>
+    </body>
+</html>

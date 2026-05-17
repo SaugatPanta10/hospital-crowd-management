@@ -13,10 +13,13 @@
 
     <ul>
         {% for report in reports %}
+        
         <li>
+            <a href="{% url 'patient_detail' report.patient_id %}">
             <strong> Patient ID: </strong> {{ report.patient_id }} |
             <strong> Name: </strong> {{report.patient_name }} |
             <strong> Status: </strong> {{report.verdict }}
+        </a>
         </li>
         {% empty %}
         <p> No pending reports in the system.</p>
