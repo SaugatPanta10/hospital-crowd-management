@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UpacharVerdict{% endblock %}</title>
+</head>
+<body style="font-family: Arial, sans-serif; margin: 40px; background-color: #fafafa;">
+
+    <header style="background-color: #1a365d; padding: 20px; color: white; border-radius: 5px;">
+        <h2>🏥 UpacharVerdict Portal Platform</h2>
+        <nav>
+            <a href="{% url 'home' %}" style="color: #90cdf4; margin-right: 15px; text-decoration: none;">Home</a> | 
+            <a href="{% url 'doctor_dashboard' %}" style="color: #90cdf4; margin-left: 15px; text-decoration: none;">Doctor Dashboard</a>
+        </nav>
+    </header>
+
+    <main style="background-color: white; padding: 30px; margin-top: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer style="margin-top: 5px; text-align: center; color: #718096; font-size: 0.9em;">
+        <hr>
+        <p>&copy; 2026 UpacharVerdict Crowd Optimizer System. Built for Health Care Infrastructure Efficiency.</p>
+    </footer>
+
+</body>
+</html>

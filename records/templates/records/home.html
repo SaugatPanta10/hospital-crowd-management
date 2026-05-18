@@ -1,14 +1,9 @@
-<!DOCTYPE html>
-<html lang = "eng">
-    <head>
-        <meta charset = "UTF-8">
-        <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
-        <title> UpacharVerdict - Home</title>
-    </head>
-    <body>
+{% extends 'records/base.html' %}
+
+{% block title %}Home - UpacharVerdict{% endblock %}
+
+{% block content %}
     <h1>Welcome to UpacharVerdict</h1>
-    <hr>
-    <p> Currently managing {{ patients }} records in our system.</p>
-    
-    </body>
-</html>
+    <p>This is the official patient and hospital crowd management portal tracking engine.</p>
+    <p>Currently managing <strong>{{ total_patients }}</strong> active records in our system.</p>
+{% endblock %}
