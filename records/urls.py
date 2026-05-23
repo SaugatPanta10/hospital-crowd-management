@@ -5,5 +5,6 @@ from . import views  # '.' means current folder, views means import views.py fro
 urlpatterns = [ # it must be called exactly urlpatterns as this is a special django variable name 
     path('', views.home_view, name = 'home'),
     path('doctor/', views.doctor_dashboard_view, name = "doctor_dashboard"),
-    path('patient/<str:patient_id>/', views.patient_detail_view, name = 'patient_detail')
+    path('patient/<str:patient_id>/', views.patient_detail_view, name = 'patient_detail'), 
+    path('create/', views.create_report_view, name = 'create_report' )
 ]

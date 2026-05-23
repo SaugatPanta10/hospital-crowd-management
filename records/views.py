@@ -1,6 +1,9 @@
 from django.shortcuts import render, get_object_or_404 # django.shortcuts is a module that provides useful tools like rendering HTML templates , and render is a function used to return HTML pages
 from django.http import HttpResponse #django.http is a module that handles web requests and responses. HttpResponse sends text babck to the browser 
 from .models import PatientReport
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import PatientReport
+from .forms import PatientReportForm
 
 def home_view(request):  #request is an object that contains the information sent by the browser to Django such as URL, user data,
     total_patients = PatientReport.objects.count()
@@ -23,3 +26,15 @@ def patient_detail_view(request, patient_id):
     }
     return render(request, 'records/patient_detail.html', context)
     
+def create_report_view(request):
+    if request.method == 'POST':
+        form = PatientReportForm (request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect ('home')
+        
+    else:
+        form = PatientReportForm
+
+    context = {'form': form}
+    return render(request, 'records/create_report.html', context)

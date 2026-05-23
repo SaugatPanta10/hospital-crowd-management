@@ -1,0 +1,19 @@
+{% extends 'records/base.html' %}
+
+{% block title %}Register Patient - UpacharVerdict{% endblock %}
+
+{% block content %}
+    <h1>Register New Patient Test</h1>
+    <hr>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        {{ form.as_p }}
+        
+        <br>
+        <button type="submit" style="background-color: #2b6cb0; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Register Patient
+        </button>
+    </form>
+{% endblock %}
