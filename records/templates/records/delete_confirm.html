@@ -1,0 +1,25 @@
+{% extends 'records/base.html' %}
+
+{% block title %}Confirm Delete - UpacharVerdict{% endblock %}
+
+{% block content %}
+    <div style="background-color: #fff5f5; border: 1px solid #fc8181; padding: 30px; border-radius: 5px; max-width: 600px; margin: 0 auto; text-align: center;">
+        
+        <h1 style="color: #c53030;">⚠️ Warning: Deleting Record</h1>
+        <p>Are you absolutely sure you want to permanently delete the medical record for:</p>
+        
+        <h2 style="color: #2d3748;">{{ report.patient_name }} (ID: {{ report.patient_id }})</h2>
+        <p style="color: #718096; margin-bottom: 30px;">This action cannot be undone.</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <button type="submit" style="background-color: #e53e3e; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                Yes, Delete Permanently
+            </button>
+            <a href="{% url 'patient_detail' report.patient_id %}" style="margin-left: 20px; color: #4a5568; text-decoration: none; font-weight: bold;">
+                Cancel
+            </a>
+        </form>
+        
+    </div>
+{% endblock %}

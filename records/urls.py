@@ -1,5 +1,6 @@
-from django.urls import path #django.urls is a module to handle URL routing in Django, path is a function used to define URL Patterns 
+from django.urls import path, include #django.urls is a module to handle URL routing in Django, path is a function used to define URL Patterns 
 from . import views  # '.' means current folder, views means import views.py from the current folder
+
 
 # this is the list of all URL routes in this app. 
 urlpatterns = [ # it must be called exactly urlpatterns as this is a special django variable name 
@@ -7,5 +8,7 @@ urlpatterns = [ # it must be called exactly urlpatterns as this is a special dja
     path('doctor/', views.doctor_dashboard_view, name = "doctor_dashboard"),
     path('patient/<str:patient_id>/', views.patient_detail_view, name = 'patient_detail'), 
     path('create/', views.create_report_view, name = 'create_report' ),
-    path('patient/<str:patient_id>/update/', views.update_verdict_view, name = 'update_verdict')
+    path('patient/<str:patient_id>/update/', views.update_verdict_view, name = 'update_verdict'), 
+    path('patient/<str:patient_id>/delete/', views.delete_report_view, name = 'delete_report'),
+    
 ]
