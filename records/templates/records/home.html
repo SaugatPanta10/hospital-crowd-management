@@ -3,7 +3,48 @@
 {% block title %}Home - UpacharVerdict{% endblock %}
 
 {% block content %}
-    <h1>Welcome to UpacharVerdict</h1>
-    <p>This is the official patient and hospital crowd management portal tracking engine.</p>
-    <p>Currently managing <strong>{{ total_patients }}</strong> active records in our system.</p>
+    <div style="text-align: center; padding: 40px 0;">
+        <h1>Welcome to UpacharVerdict</h1>
+        <p style="color: #4a5568;">Secure Patient Result Portal</p>
+        
+        <form method="GET" action="" style="margin-top: 30px;">
+            <input type="text" name="query" placeholder="Enter your Patient ID (e.g., P001)" 
+                   value="{{ search_query|default:'' }}"
+                   style="padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 5px;">
+            <button type="submit" style="padding: 10px 20px; background-color: #2b6cb0; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                Search Results
+            </button>
+        </form>
+    </div>
+
+    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+
+    {% if search_query %}
+        <h2>Search Results for "{{ search_query }}"</h2>
+        
+        {% if patient_result %}
+            <div style="background-color: #f0fff4; border-left: 5px solid #38a169; padding: 15px; margin-top: 15px;">
+                <p><strong>Patient Name:</strong> {{ patient_result.patient_name }}</p>
+                <p><strong>Test Conducted:</strong> {{ patient_result.test_name }}</p>
+                <p><strong>Status:</strong> 
+                    {% if patient_result.is_reviewed %}
+                        <span style="color: green; font-weight: bold;">Reviewed (Verdict Available)</span>
+                    {% else %}
+                        <span style="color: #dd6b20; font-weight: bold;">Pending Doctor Review</span>
+                    {% endif %}
+                </p>
+                
+                {% if patient_result.is_reviewed %}
+                    <div style="background-color: white; padding: 10px; border: 1px solid #ccc; margin-top: 10px;">
+                        <strong>Doctor's Verdict:</strong> {{ patient_result.verdict }}
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div style="background-color: #fff5f5; border-left: 5px solid #e53e3e; padding: 15px; margin-top: 15px;">
+                <p style="color: #c53030;">No medical records found matching ID: <strong>{{ search_query }}</strong>. Please check your ID and try again.</p>
+            </div>
+        {% endif %}
+    {% endif %}
+
 {% endblock %}
