@@ -6,5 +6,6 @@ urlpatterns = [ # it must be called exactly urlpatterns as this is a special dja
     path('', views.home_view, name = 'home'),
     path('doctor/', views.doctor_dashboard_view, name = "doctor_dashboard"),
     path('patient/<str:patient_id>/', views.patient_detail_view, name = 'patient_detail'), 
-    path('create/', views.create_report_view, name = 'create_report' )
+    path('create/', views.create_report_view, name = 'create_report' ),
+    path('patient/<str:patient_id>/update/', views.update_verdict_view, name = 'update_verdict')
 ]

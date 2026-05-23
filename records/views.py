@@ -38,3 +38,18 @@ def create_report_view(request):
 
     context = {'form': form}
     return render(request, 'records/create_report.html', context)
+
+def update_verdict_view (request, patient_id):
+    report = get_object_or_404(PatientReport, patient_id = patient_id)
+
+    if request.method =='POST':
+        form = DoctorVerdictForm(request.POST, instance = report)
+        if form.is_valid():
+            form.save()
+            return redirect('patient_detail', patient_id = report.patient_id)
+        
+    else:
+        form = DoctorVerdictForm(instance = report)
+
+    context = {'form': form, 'report': report}
+    return render(request, 'records/update_verdict.html', context)

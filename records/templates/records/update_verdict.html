@@ -1,0 +1,22 @@
+{% extends 'records/base.html' %}
+
+{% block title %}Update Verdict - UpacharVerdict{% endblock %}
+
+{% block content %}
+    <h1>Submit Clinical Verdict</h1>
+    <p><strong>Patient:</strong> {{ report.patient_name }} | <strong>Test:</strong> {{ report.test_name }}</p>
+    <hr>
+    
+    <form method="POST">
+        {% csrf_token %}
+        
+        <div style="background-color: #f4f4f4; padding: 20px; border-radius: 5px; margin-bottom: 20px;">
+            {{ form.as_p }}
+        </div>
+        
+        <button type="submit" style="background-color: #38a169; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">
+            Save Verdict & Mark as Reviewed
+        </button>
+        <a href="{% url 'patient_detail' report.patient_id %}" style="margin-left: 15px; color: #e53e3e; text-decoration: none;">Cancel</a>
+    </form>
+{% endblock %}
