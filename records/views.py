@@ -4,6 +4,8 @@ from .models import PatientReport
 from .models import PatientReport
 from .forms import PatientReportForm, DoctorVerdictForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 
 
 def home_view(request):  #request is an object that contains the information sent by the browser to Django such as URL, user data,
@@ -27,7 +29,8 @@ def update_verdict_view (request, patient_id):
         form = DoctorVerdictForm(request.POST, instance = report)
         if form.is_valid():
             form.save()
-            return redirect('patient_detail', patient_id = report.patient_id)
+            messages.success(request, "new patient report created successfully")
+            return redirect('doctor_dashboard')
         
     else:
         form = DoctorVerdictForm(instance = report)
@@ -56,7 +59,8 @@ def delete_report_view(request, patient_id):
 
     if request.method == 'POST':
         report.delete()
-        return redirect('home')
+        messages.success(request, "New patient report created successfully")
+        return redirect('doctor_dashboard')
     
     context = {'report': report}
     return render(request, 'records/delete_confirm.html', context)
@@ -75,12 +79,15 @@ def create_report_view(request):
         form = PatientReportForm (request.POST)
         if form.is_valid():
             form.save()
-            return redirect ('home')
+            messages.success(request, "New patient report created successfully.")
+            return redirect ('doctor_dashboard')
         
     else:
         form = PatientReportForm
 
     context = {'form': form}
     return render(request, 'records/create_report.html', context)
+
+
 
 

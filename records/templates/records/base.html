@@ -7,22 +7,71 @@
 </head>
 <body style="font-family: Arial, sans-serif; margin: 40px; background-color: #fafafa;">
 
-    <header style="background-color: #1a365d; padding: 20px; color: white; border-radius: 5px;">
-        <h2>🏥 UpacharVerdict Portal Platform</h2>
-        <nav>
-            <a href="{% url 'home' %}" style="color: #90cdf4; margin-right: 15px; text-decoration: none;">Home</a> | 
-            <a href="{% url 'doctor_dashboard' %}" style="color: #90cdf4; margin-left: 15px; text-decoration: none;">Doctor Dashboard</a>
-            <a href= "{% url 'create_report' %}" style = "color: #90cdf4; margin-left: 15px; text-decoration: none;">Create Report</a>
-        </nav>
+    <header style="background-color: #1a365d; padding: 20px; color: white; border-radius: 5px; display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h2 style="margin: 0; padding-bottom: 5px;">🏥 UpacharVerdict Portal Platform</h2>
+            <nav style="display: flex; align-items: center; gap: 10px;">
+                <a href="{% url 'home' %}" style="color: #90cdf4; text-decoration: none;">Home</a>
+                
+                {% if user.is_authenticated %}
+                    <span style="color: #4a5568;">|</span>
+                    <a href="{% url 'doctor_dashboard' %}" style="color: #90cdf4; text-decoration: none;">Doctor Dashboard</a>
+                    <span style="color: #4a5568;">|</span>
+                    <a href="{% url 'create_report' %}" style="color: #90cdf4; text-decoration: none;">Create Report</a>
+                {% endif %}
+            </nav>
+        </div>
+        
+        <div>
+            {% if user.is_authenticated %}
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <span style="color: #e2e8f0;">Hello, <strong>{{ user.username }}</strong></span>
+                    <form action="{% url 'logout' %}" method="POST" style="margin: 0;">
+                        {% csrf_token %}
+                        <button type="submit" style="background-color: transparent; color: white; border: 1px solid #90cdf4; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 0.9em;">
+                            Log Out
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <a href="{% url 'login' %}" style="color: white; text-decoration: none; background-color: #2b6cb0; padding: 8px 16px; border-radius: 5px; font-weight: bold; font-size: 0.9em;">
+                    Staff Login
+                </a>
+            {% endif %}
+        </div>
     </header>
+
+    {% if messages %}
+        <div style="margin-top: 20px;">
+            {% for message in messages %}
+                
+                {% if message.tags == 'success' %}
+                    <div style="padding: 15px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb;">
+                        Notice: <span style="font-weight: normal;">{{ message }}</span>
+                    </div>
+                
+                {% elif message.tags == 'warning' %}
+                    <div style="padding: 15px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba;">
+                        Notice: <span style="font-weight: normal;">{{ message }}</span>
+                    </div>
+                
+                {% else %}
+                    <div style="padding: 15px; border-radius: 5px; margin-bottom: 10px; font-weight: bold; background-color: #e2e8f0; color: #4a5568; border: 1px solid #cbd5e0;">
+                        Notice: <span style="font-weight: normal;">{{ message }}</span>
+                    </div>
+                {% endif %}
+
+            {% endfor %}
+        </div>
+    {% endif %}
 
     <main style="background-color: white; padding: 30px; margin-top: 20px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
         {% block content %}
         {% endblock %}
     </main>
 
-    <footer style="margin-top: 5px; text-align: center; color: #718096; font-size: 0.9em;">
-        <hr>
+    <footer style="margin-top: 40px; text-align: center; color: #718096; font-size: 0.9em;">
+        <hr style="border: 0; border-top: 1px solid #e2e8f0; margin-bottom: 20px;">
         <p>&copy; 2026 UpacharVerdict Crowd Optimizer System. Built for Health Care Infrastructure Efficiency.</p>
     </footer>
 
