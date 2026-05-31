@@ -1,50 +1,71 @@
 {% extends 'records/base.html' %}
 
-{% block title %}Home - UpacharVerdict{% endblock %}
+{% block title %}Patient Portal - UpacharVerdict{% endblock %}
 
 {% block content %}
-    <div style="text-align: center; padding: 40px 0;">
-        <h1>Welcome to UpacharVerdict</h1>
-        <p style="color: #4a5568;">Secure Patient Result Portal</p>
-        
-        <form method="GET" action="" style="margin-top: 30px;">
-            <input type="text" name="query" placeholder="Enter your Patient ID (e.g., P001)" 
-                   value="{{ search_query|default:'' }}"
-                   style="padding: 10px; width: 300px; border: 1px solid #ccc; border-radius: 5px;">
-            <button type="submit" style="padding: 10px 20px; background-color: #2b6cb0; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                Search Results
+<div style="max-width: 700px; margin: 40px auto; font-family: Arial, sans-serif;">
+    
+    <div style="text-align: center; margin-bottom: 35px;">
+        <h1 style="color: #1a365d; margin-bottom: 10px;">📋 Public Patient Medical Portal</h1>
+        <p style="color: #4a5568; font-size: 1.1em; margin: 0;">Enter your secure Patient ID below to review your assigned medical diagnostic verdict.</p>
+    </div>
+
+    <div style="background-color: #edf2f7; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin-bottom: 30px;">
+        <form method="GET" action="{% url 'home' %}" style="display: flex; gap: 15px; margin: 0;">
+            <input type="text" name="patient_id" value="{{ query }}" placeholder="e.g., PATIENT-101" required
+                   style="flex: 1; padding: 12px 16px; border: 2px solid #cbd5e0; border-radius: 6px; font-size: 1em; outline: none; transition: border-color 0.2s;">
+            <button type="submit" style="background-color: #1a365d; color: white; border: none; padding: 12px 25px; font-size: 1em; font-weight: bold; border-radius: 6px; cursor: pointer;">
+                Search Record
             </button>
         </form>
     </div>
 
-    <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 30px 0;">
+    {% if report %}
+        <div style="background-color: #ffffff; border: 2px solid #2b6cb0; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+            
+            <div style="background-color: #2b6cb0; color: white; padding: 20px; display: flex; justify-content: space-between; align-items: center;">
+                <h3 style="margin: 0; text-transform: uppercase; letter-spacing: 0.05em;">Official Diagnostic Record</h3>
+                <span style="background-color: #ffffff; color: #2b6cb0; padding: 4px 10px; border-radius: 20px; font-weight: bold; font-size: 0.85em;">Verified</span>
+            </div>
 
-    {% if search_query %}
-        <h2>Search Results for "{{ search_query }}"</h2>
-        
-        {% if patient_result %}
-            <div style="background-color: #f0fff4; border-left: 5px solid #38a169; padding: 15px; margin-top: 15px;">
-                <p><strong>Patient Name:</strong> {{ patient_result.patient_name }}</p>
-                <p><strong>Test Conducted:</strong> {{ patient_result.test_name }}</p>
-                <p><strong>Status:</strong> 
-                    {% if patient_result.is_reviewed %}
-                        <span style="color: green; font-weight: bold;">Reviewed (Verdict Available)</span>
-                    {% else %}
-                        <span style="color: #dd6b20; font-weight: bold;">Pending Doctor Review</span>
-                    {% endif %}
-                </p>
-                
-                {% if patient_result.is_reviewed %}
-                    <div style="background-color: white; padding: 10px; border: 1px solid #ccc; margin-top: 10px;">
-                        <strong>Doctor's Verdict:</strong> {{ patient_result.verdict }}
-                    </div>
-                {% endif %}
+            <div style="padding: 30px;">
+                <table style="width: 100%; border-collapse: collapse; margin-bottom: 25px;">
+                    <tr style="border-bottom: 1px solid #edf2f7;">
+                        <td style="padding: 12px 0; color: #718096; font-weight: bold; width: 35%;">Patient Name:</td>
+                        <td style="padding: 12px 0; color: #2d3748; font-weight: bold; font-size: 1.1em;">{{ report.patient_name }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #edf2f7;">
+                        <td style="padding: 12px 0; color: #718096; font-weight: bold;">Patient File ID:</td>
+                        <td style="padding: 12px 0; color: #4a5568; font-family: monospace; font-size: 1.1em;">{{ report.patient_id }}</td>
+                    </tr>
+                    <tr style="border-bottom: 1px solid #edf2f7;">
+                        <td style="padding: 12px 0; color: #718096; font-weight: bold;">Issuing Authority:</td>
+                        <td style="padding: 12px 0; color: #4a5568; font-style: italic;">
+                            {% if report.doctor %}
+                                Dr. {{ report.doctor.username|capfirst }}
+                            {% else %}
+                                Hospital Medical Board
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding: 12px 0; color: #718096; font-weight: bold;">Date of Record:</td>
+                        <td style="padding: 12px 0; color: #4a5568;">{{ report.created_at|date:"F d, Y @ H:i" }}</td>
+                    </tr>
+                </table>
+
+                <div style="background-color: #f7fafc; border-left: 4px solid #2b6cb0; padding: 20px; border-radius: 0 6px 6px 0;">
+                    <h4 style="margin: 0 0 10px 0; color: #2b6cb0; text-transform: uppercase; font-size: 0.9em; letter-spacing: 0.05em;">Clinical Medical Verdict & Prescription:</h4>
+                    <p style="margin: 0; color: #2d3748; line-height: 1.6; font-size: 1.05em; white-space: pre-line;">{{ report.verdict }}</p>
+                </div>
             </div>
-        {% else %}
-            <div style="background-color: #fff5f5; border-left: 5px solid #e53e3e; padding: 15px; margin-top: 15px;">
-                <p style="color: #c53030;">No medical records found matching ID: <strong>{{ search_query }}</strong>. Please check your ID and try again.</p>
+
+            <div style="background-color: #f7fafc; padding: 15px 30px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 0.85em; color: #a0aec0;">
+                This digital document acts as a verified legal transmission of UpacharVerdict Infrastructure Core.
             </div>
-        {% endif %}
+
+        </div>
     {% endif %}
 
+</div>
 {% endblock %}

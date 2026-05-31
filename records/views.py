@@ -9,11 +9,15 @@ from django.contrib import messages
 
 
 def home_view(request):  #request is an object that contains the information sent by the browser to Django such as URL, user data,
-    total_patients = PatientReport.objects.count()
-    context = {
-        'patients': total_patients
-        }
-    return render(request, 'records/home.html', context)
+    query = request.GET.get('patient_id', '').strip
+    report = None
+    if query:
+        report = PatientReport.objects.filter(patient_id__iexact=query).first()
+        if not report: 
+            messages.warning(request, f"No medical report found matching ID: {query}")
+
+    return render(request, 'records/home.html', {'report': report, 'query': query})
+    
 
 def patient_detail_view(request, patient_id):
     report = get_object_or_404(PatientReport, patient_id=patient_id)
