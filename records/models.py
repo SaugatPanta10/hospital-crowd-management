@@ -1,17 +1,14 @@
 from django.db import models
+from django.contrib.auth.models import User  # Import Django's built-in User model
 
-class PatientReport(models.Model): 
-    patient_id = models.CharField(db_index = True, max_length = 20, unique = True)
-    patient_name = models.CharField(max_length = 100)
-    patient_phone = models.CharField(max_length=15)
-    test_name = models.CharField(max_length=100)
-    doctor_name = models.CharField(max_length = 100, default = "Unassigned")
-
-    verdict = models.TextField(default= "Pending")
-
-    is_reviewed = models.BooleanField(default=False)
-
-    created_at = models.DateTimeField(auto_now_add = True)
+class PatientReport(models.Model):
+    # Your existing fields
+    patient_id = models.CharField(max_length=50, unique=True)
+    patient_name = models.CharField(max_length=100)
+    verdict = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    doctor = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True, related_name='reports')
 
     def __str__(self):
-        return f"Report {self.patient_id} - {self.patient_name}"
+        return f"{self.patient_name} ({self.patient_id})"

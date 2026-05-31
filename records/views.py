@@ -67,27 +67,20 @@ def delete_report_view(request, patient_id):
 
 @login_required
 def doctor_dashboard_view(request):
-    all_reports = PatientReport.objects.all() #Take all records from PatientReport table and store them in a list
-    context = {
-        'reports': all_reports
-        }
-    return render(request, 'records/doctor_dashboard.html', context) #this context must always be a dictionary 
+    reports = PatientReport.objects.filter(doctor = request.user) 
+    return render(request, 'records/doctor_dashboard.html', {'reports': reports}) #this context must always be a dictionary 
 
 @login_required
 def create_report_view(request):
     if request.method == 'POST':
         form = PatientReportForm (request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, "New patient report created successfully.")
-            return redirect ('doctor_dashboard')
-        
+            report = form.save(commit = False)
+            report.doctor = request.user
+            report.save()
+            messages.success(request, "New Patient report created successfully!")
+            return redirect('doctor_dashboard')
+           
     else:
         form = PatientReportForm
-
-    context = {'form': form}
-    return render(request, 'records/create_report.html', context)
-
-
-
-
+    return render(request, 'records/create_report.html', {'form': form})
